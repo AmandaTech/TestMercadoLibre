@@ -1,7 +1,9 @@
 package com.mx.testmercadolibre.module
 
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -13,8 +15,10 @@ import com.mx.testmercadolibre.adapter.ProductsModel
 import com.mx.testmercadolibre.base.MLFragmentBase
 import com.mx.testmercadolibre.expose.MLNavigation
 import com.mx.testmercadolibre.data.api.ResProducts
+import com.mx.testmercadolibre.expose.MLNavigationExposeUtils
 import com.mx.testmercadolibre.remote.MLRemoteDataSource
 import com.mx.testmercadolibre.utils.MLResource
+import com.mx.testmercadolibre.widget.MLDialogFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,6 +54,7 @@ class MLFragmentProducts: MLFragmentBase() {
             searchLvl()
         }else{
             tvInitSearch.isVisible = true
+
         }
     }
     private fun settingAdapter() {
@@ -62,32 +67,41 @@ class MLFragmentProducts: MLFragmentBase() {
     }
 
     private fun searchLvl() {
-
+        MLNavigationExposeUtils.openCustomDialog(requireActivity())
         CoroutineScope(Dispatchers.IO).launch {
             val data = MLRemoteDataSource().searchItems(productSearch)
             CoroutineScope(Dispatchers.Main).launch {
                 try {
-
+                    MLNavigationExposeUtils.dismissCustomDialog()
                     if (mListenerFragment?.handlerMessageErrorApigee(data) == true) {
                         return@launch
                     }
 
                     if (data.data?.results?.isNotEmpty() == true) {
                         updateData(data)
+
                     } else {
-//                        mListenerFragment?.showMessage(
-//                            getString(R.string.title_message_one), "no se pude acutalizar"
-//                        )
+                        data.message?.let { openDialog(it) }
                     }
+
                 } catch (e: Exception) {
-
+                    MLNavigationExposeUtils.dismissCustomDialog()
                 } finally {
+                    MLNavigationExposeUtils.dismissCustomDialog()
 
-                    //  mListenerFragment?.dialogWait(false)
                 }
             }
         }
 
+
+    }
+
+    fun openDialog(txt1: String){
+
+        val txt2 = getString(R.string.st_accept)
+        MLDialogFactory.createDesPrimaryButton(requireActivity(), txt1, txt2) {
+            Log.d(TAG, "listener: ")
+        }
 
     }
     private fun updateData(response: MLResource<ResProducts>) {

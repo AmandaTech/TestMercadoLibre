@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MercadoLibre</string>
     <string name="st_init_search">Por favor inicia tu búsqueda</string>
+    <string name="st_internet_connection">¡Por favor revisa tu conexión!</string>
+    <string name="st_accept">Aceptar</string>
+    <string name="st_product_error">Si</string>
+    <!--    <string name="st_producto_error">Tenemos problemas para mostrar la informacion del producto, por favor intente mas tarde</string>-->
 </resources>

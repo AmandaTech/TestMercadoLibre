@@ -1,17 +1,20 @@
 package com.mx.testmercadolibre
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.util.Log
 import android.view.Menu
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.mx.testmercadolibre.base.MLBaseActivity
 import com.mx.testmercadolibre.base.MLFragmentInteractorBase
-import com.mx.testmercadolibre.base.ShareDataFragment
-import com.mx.testmercadolibre.data.api.ResProducts
 import com.mx.testmercadolibre.expose.MLNavigation
 import com.mx.testmercadolibre.utils.MLResource
+import com.mx.testmercadolibre.widget.MLDialogFactory
 
 
 class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
@@ -38,6 +41,30 @@ class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
         setSupportActionBar(toolbar)
         inflater(MLNavigation.getFragmentByEnumChoose(MLNavigation.MLNavigationChoose.ML_LISTPRODUCTS,""))
 
+        if (hasDataConnection(this)) {
+            // El dispositivo tiene acceso a Internet
+        } else {
+            // El dispositivo no tiene acceso a Internet
+            openDialog()
+        }
+
+
+    }
+    fun openDialog(){
+
+        val txt1 = getString(R.string.st_internet_connection)
+        val txt2 = getString(R.string.st_accept)
+        MLDialogFactory.createDesPrimaryButton(this, txt1, txt2) {
+            Log.d(TAG, "listener: ")
+        }
+
+    }
+    fun openDialogService(){
+        val txt1 = "Tenemos problemas para mostrar la informacion del producto, por favor intente mas tarde"
+        val txt2 = getString(R.string.st_accept)
+        MLDialogFactory.createDesPrimaryButton(this, txt1, txt2) {
+            Log.d(ContentValues.TAG, "listener: ")
+        }
 
     }
 
@@ -65,9 +92,11 @@ class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
         changeFragmentFlow(step + 1,productsId)
 
     override fun handlerMessageErrorApigee(resource: MLResource<Any>): Boolean {
+        /**
+         * Muestra errores a nivel servicio**/
         if ( resource.status == MLResource.Status.ERROR && resource.message != null   ) {
-            //showMessage("" , resource.message)
-            // messajeErrorDatoBancario("Aviso" , resource.message)
+            Log.d("error_servicio",resource.message)
+            openDialogService()
             return true
         }
         return false
@@ -87,14 +116,24 @@ class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText?.isNotEmpty() == true){
-                    inflater(MLNavigation.getFragmentByEnumChoose(MLNavigation.MLNavigationChoose.ML_LISTPRODUCTS,newText))
-                }
                 return true
             }
         })
 
         return true
+    }
+
+    private fun hasDataConnection(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            return networkInfo != null && networkInfo.isConnected
+        }
     }
 
     override fun listener() {

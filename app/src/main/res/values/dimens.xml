@@ -4,4 +4,5 @@
     <dimen name="txt_large">18sp</dimen>
     <dimen name="margin_padding_size_medium">16dp</dimen>
     <dimen name="margin_padding_size_small">8dp</dimen>
+    <dimen name="ml_txt_medium">15sp</dimen>
 </resources>
