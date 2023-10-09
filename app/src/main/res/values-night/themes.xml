@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.TestMercadoLibre" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/yellow_ligth</item>
+        <item name="android:windowBackground">@color/yellow_ligth</item>
+    </style>
+</resources>
