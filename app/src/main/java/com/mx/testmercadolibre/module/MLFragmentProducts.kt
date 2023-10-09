@@ -55,7 +55,7 @@ class MLFragmentProducts: MLFragmentBase() {
     private fun settingAdapter() {
         assignedProductsRecyclerView = view?.findViewById(R.id.rv_items)!!
         adapterProducts = AdapterProducts { products ->
-            mListenerFragment?.changeFragment(CURRENT_STEP)
+            mListenerFragment?.changeFragment(CURRENT_STEP, products.id.toString())
         }
         assignedProductsRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         assignedProductsRecyclerView.adapter = adapterProducts
@@ -98,7 +98,9 @@ class MLFragmentProducts: MLFragmentBase() {
         var cont = 0
         while(cont < ind!!){
             listProducts.add(
-                ProductsModel(result?.results?.get(cont)?.title,
+                ProductsModel(
+                    result?.results?.get(cont)?.id,
+                    result?.results?.get(cont)?.title,
                     result?.results?.get(cont)?.price,
                     result?.results?.get(cont)?.acceptsMercadopago,
                     result?.results?.get(cont)?.sellerAddress?.city?.name.toString(),

@@ -3,14 +3,17 @@ package com.mx.testmercadolibre.base
 import android.os.Parcel
 import android.os.Parcelable
 
-data class ShareDataFragment(val product: String? ) :
+data class ShareDataFragment(val id: String?,val product: String? ) :
     Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString()
+
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(product)
 
     }

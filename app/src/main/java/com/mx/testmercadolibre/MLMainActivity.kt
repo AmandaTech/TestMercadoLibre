@@ -54,15 +54,15 @@ class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
 
 
 
-    override fun changeFragmentFlow(step: Int,  args: ShareDataFragment?): Fragment {
+    override fun changeFragmentFlow(step: Int,  productsId: String): Fragment {
         val chooser = MLNavigation.MLNavigationChoose.getByStepId(step)
-        val fragment = MLNavigation.getFragmentByEnumChoose(chooser,args?.product.toString())
+        val fragment = MLNavigation.getFragmentByEnumChoose(chooser,productsId)
         inflater(fragment)
         return fragment
     }
 
-    override fun changeFragment(step: Int, args: ShareDataFragment?) =
-        changeFragmentFlow(step + 1)
+    override fun changeFragment(step: Int, productsId: String) =
+        changeFragmentFlow(step + 1,productsId)
 
     override fun handlerMessageErrorApigee(resource: MLResource<Any>): Boolean {
         if ( resource.status == MLResource.Status.ERROR && resource.message != null   ) {

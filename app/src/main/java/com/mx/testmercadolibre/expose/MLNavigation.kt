@@ -1,10 +1,11 @@
 package com.mx.testmercadolibre.expose
 
 import androidx.fragment.app.Fragment
+import com.mx.testmercadolibre.base.ShareDataFragment
 import com.mx.testmercadolibre.module.MLFragmentDetailProducts
 import com.mx.testmercadolibre.module.MLFragmentProducts
 
-data class MLNavigation(val navigationFragment: Fragment, val products: String) {
+data class MLNavigation(val navigationFragment: Fragment, val products: String,  val args: ShareDataFragment? = null) {
 
     enum class MLNavigationChoose(val stepId: Int ) {
         ML_LISTPRODUCTS(1),
@@ -29,7 +30,7 @@ data class MLNavigation(val navigationFragment: Fragment, val products: String) 
 
     companion object {
 
-        fun getFragmentByEnumChoose(select: MLNavigationChoose, products: String): Fragment {
+        fun getFragmentByEnumChoose(select: MLNavigationChoose, products: String ): Fragment {
             return when (select) {
                 MLNavigationChoose.ML_LISTPRODUCTS -> {
                     MLFragmentProducts.createFragment(products)

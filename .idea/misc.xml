@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dell/Documents/GitHub/TestMercadoLibre/app/src/main/res/layout/activity_main.xml" value="0.16485507246376813" />
+        <entry key="..\:/Users/dell/Documents/GitHub/TestMercadoLibre/app/src/main/res/layout/fragment_detail_products.xml" value="0.25" />
+        <entry key="..\:/Users/dell/Documents/GitHub/TestMercadoLibre/app/src/main/res/layout/fragment_products.xml" value="0.16485507246376813" />
+        <entry key="..\:/Users/dell/Documents/GitHub/TestMercadoLibre/app/src/main/res/layout/list_picture.xml" value="0.1" />
+        <entry key="..\:/Users/dell/Documents/GitHub/TestMercadoLibre/app/src/main/res/layout/list_products.xml" value="0.1" />
         <entry key="..\:/Users/dell/github/TestMercadoLibre/app/src/main/res/drawable/ml_bg_round.xml" value="0.1" />
         <entry key="..\:/Users/dell/github/TestMercadoLibre/app/src/main/res/drawable/ml_bg_style.xml" value="0.1" />
         <entry key="..\:/Users/dell/github/TestMercadoLibre/app/src/main/res/drawable/ml_border.xml" value="0.1" />
