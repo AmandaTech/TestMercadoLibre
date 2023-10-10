@@ -6,38 +6,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:padding="16dp">
+    >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_productImage"
+    <!-- ScrollView como elemento principal -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_name_product_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_marginTop="@dimen/margin_padding_size_medium"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_productImage" />
-
-    <TextView
-        android:id="@+id/tv_descript_product_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_padding_size_medium"
-        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name_product_detail" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <!-- Contenido dentro del ScrollView -->
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <!-- Tus vistas y contenido aquí -->
+            <include
+                android:id="@+id/icd_toolbar"
+                layout="@layout/fragment_top"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_productImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/teal_200"
+                android:layout_margin="@dimen/margin_padding_size_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contentLayout"
+                app:layout_constraintVertical_bias="0.0" />
 
+            <TextView
+                android:id="@+id/tv_name_product_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/ml_txt_large"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_productImage" />
+
+            <!-- Línea horizontal -->
+            <View
+                android:id="@+id/horizontal_line"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/yellow_ligth"
+                app:layout_constraintTop_toBottomOf="@id/tv_name_product_detail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_price_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_product_detail" />
+
+            <TextView
+                android:id="@+id/tv_descript_product_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:layout_marginLeft="@dimen/margin_padding_size_medium"
+                android:layout_marginRight="@dimen/margin_padding_size_medium"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_price_detail" />
+        </LinearLayout>
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

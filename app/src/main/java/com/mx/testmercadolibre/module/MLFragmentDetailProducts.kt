@@ -3,8 +3,11 @@ package com.mx.testmercadolibre.module
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +17,7 @@ import com.mx.testmercadolibre.adapter.MLProductsDetailModel
 import com.mx.testmercadolibre.base.MLFragmentBase
 import com.mx.testmercadolibre.data.api.ProductDetailsResponse
 import com.mx.testmercadolibre.expose.MLNavigation
+import com.mx.testmercadolibre.expose.MLNavigationExposeUtils.Companion.gotoMain
 import com.mx.testmercadolibre.remote.MLRemoteDataSourceML
 import com.mx.testmercadolibre.utils.MLResource
 import com.mx.testmercadolibre.widget.MLDialogFactory
@@ -28,6 +32,8 @@ class MLFragmentDetailProducts: MLFragmentBase() {
     private lateinit var assignedDetailProductsRecyclerView: RecyclerView
     private lateinit var tvNameProductDetail: TextView
     private lateinit var tvDescriptProductDetail: TextView
+    private lateinit var tvPriceDetail: TextView
+    private lateinit var horizontalLine: View
 
 
     companion object {
@@ -43,13 +49,18 @@ class MLFragmentDetailProducts: MLFragmentBase() {
     override fun start() {
         tvNameProductDetail = findViewById(R.id.tv_name_product_detail)
         tvDescriptProductDetail = findViewById(R.id.tv_descript_product_detail)
+        tvPriceDetail = findViewById(R.id.tv_price_detail)
+        horizontalLine = findViewById(R.id.horizontal_line)
+        findViewById<ImageView>(R.id.img_back).setOnClickListener {
+            gotoMain(requireContext())
+        }
         // Ocultar la barra de herramientas
         val activity = requireActivity() as AppCompatActivity
         activity.supportActionBar?.hide()
 
         settingAdapter()
         detailProduct()
-        detailDescriptionProduct()
+
     }
     private fun settingAdapter() {
         assignedDetailProductsRecyclerView = view?.findViewById(R.id.rv_productImage)!!
@@ -72,9 +83,11 @@ class MLFragmentDetailProducts: MLFragmentBase() {
                     if (data.status == MLResource.Status.SUCCESS) {
                         updateData(data.data)
                         tvNameProductDetail.text = data.data?.title
+                        tvPriceDetail.text = "$ " + data.data?.price.toString()
+                        detailDescriptionProduct()
                     } else {
                         openDialog(data.message.toString())
-
+                        horizontalLine.isVisible = false
                     }
                 } catch (e: Exception) {
 

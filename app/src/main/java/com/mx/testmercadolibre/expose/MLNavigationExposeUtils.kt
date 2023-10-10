@@ -2,8 +2,11 @@ package com.mx.testmercadolibre.expose
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.view.Gravity
 import android.view.WindowManager
+import com.mx.testmercadolibre.MLMainActivity
 import com.mx.testmercadolibre.R
 /**
  * Clase de utilidad para mostrar y cerrar un diálogo personalizado de progreso.
@@ -39,6 +42,12 @@ class MLNavigationExposeUtils {
              */
             fun dismissCustomDialog(){
                 isDialog.dismiss()
+            }
+
+            fun gotoMain( context : Context) {
+                var intent: Intent = MLMainActivity.createIntent(context , MLMainActivity.MODE_MAIN)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
             }
         }
 }
