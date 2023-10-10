@@ -15,10 +15,20 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-abstract class BaseDataSource() {
+/**
+ * Clase base abstracta que proporciona funcionalidad común para las fuentes de datos.
+ */
 
+abstract class MLBaseDataSource() {
+    /**
+     * Encabezados HTTP personalizados para las solicitudes.
+     */
     private var headers: HashMap<String, String>? = null
-
+    /**
+     * Obtiene un cliente OkHttpClient personalizado que confía en todos los certificados SSL.
+     *
+     * @return Cliente OkHttpClient personalizado.
+     */
     private fun getOkHttpClient(): OkHttpClient? {
         return try {
             val trustAllCerts = arrayOf<TrustManager>(
@@ -62,6 +72,12 @@ abstract class BaseDataSource() {
         }
     }
 
+    /**
+     * Realiza una llamada a la API y devuelve un recurso de datos envuelto en [MLResource].
+     *
+     * @param call Una función suspendida que realiza la llamada a la API.
+     * @return Un [MLResource] que representa el resultado de la llamada a la API.
+     */
     suspend fun <T> getResult(call: suspend () -> Response<T>): MLResource<T> {
         try {
 
@@ -73,7 +89,7 @@ abstract class BaseDataSource() {
             }
 
             val messageError =
-                ManagerError.getMessageError(response)
+                MLManagerError.getMessageError(response)
 
             return if (messageError.isNotEmpty()) {
                 error(messageError)
@@ -86,7 +102,12 @@ abstract class BaseDataSource() {
         }
     }
 
-
+    /**
+     * Función privada que crea un recurso de error [MLResource].
+     *
+     * @param message El mensaje de error.
+     * @return Un [MLResource] de error.
+     */
 
     private fun <T> error(message: String): MLResource<T> {
         return MLResource.error(message)

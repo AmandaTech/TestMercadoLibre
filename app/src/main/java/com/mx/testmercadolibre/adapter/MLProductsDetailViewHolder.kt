@@ -2,7 +2,6 @@ package com.mx.testmercadolibre.adapter
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -18,11 +17,11 @@ class MLProductsDetailViewHolder (itemView: View) : RecyclerView.ViewHolder(item
 
 
 
-    private var mListener: ((item: ProductsDetailModel) -> Unit)? = null
-    private lateinit var mCurrent: ProductsDetailModel
+    private var mListener: ((item: MLProductsDetailModel) -> Unit)? = null
+    private lateinit var mCurrent: MLProductsDetailModel
 
 
-    fun bind(current: ProductsDetailModel, listener: ((item: ProductsDetailModel) -> Unit)?) {
+    fun bind(current: MLProductsDetailModel, listener: ((item: MLProductsDetailModel) -> Unit)?) {
         this.mCurrent = current
         this.mListener = listener
     }

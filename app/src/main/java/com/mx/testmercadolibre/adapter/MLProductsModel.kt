@@ -2,7 +2,7 @@ package com.mx.testmercadolibre.adapter
 
 import com.mx.testmercadolibre.data.api.SellerAddress
 
-data class ProductsModel(
+data class MLProductsModel(
     val id: String?,
     val title: String?,
     val price: Double?,

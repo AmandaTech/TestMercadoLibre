@@ -1,19 +1,22 @@
 package com.mx.testmercadolibre.module
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mx.testmercadolibre.R
-import com.mx.testmercadolibre.adapter.AdapterDetailProducts
-import com.mx.testmercadolibre.adapter.ProductsDetailModel
-import com.mx.testmercadolibre.adapter.ProductsModel
+import com.mx.testmercadolibre.adapter.MLAdapterDetailProducts
+import com.mx.testmercadolibre.adapter.MLProductsDetailModel
 import com.mx.testmercadolibre.base.MLFragmentBase
 import com.mx.testmercadolibre.data.api.ProductDetailsResponse
 import com.mx.testmercadolibre.expose.MLNavigation
-import com.mx.testmercadolibre.remote.MLRemoteDataSource
+import com.mx.testmercadolibre.remote.MLRemoteDataSourceML
 import com.mx.testmercadolibre.utils.MLResource
+import com.mx.testmercadolibre.widget.MLDialogFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +24,7 @@ import kotlinx.coroutines.launch
 class MLFragmentDetailProducts: MLFragmentBase() {
     override fun getLayoutId() = R.layout.fragment_detail_products
     private lateinit var productId: String
-    private lateinit var adapterDetailProducts: AdapterDetailProducts
+    private lateinit var MLAdapterDetailProducts: MLAdapterDetailProducts
     private lateinit var assignedDetailProductsRecyclerView: RecyclerView
     private lateinit var tvNameProductDetail: TextView
     private lateinit var tvDescriptProductDetail: TextView
@@ -40,22 +43,25 @@ class MLFragmentDetailProducts: MLFragmentBase() {
     override fun start() {
         tvNameProductDetail = findViewById(R.id.tv_name_product_detail)
         tvDescriptProductDetail = findViewById(R.id.tv_descript_product_detail)
+        // Ocultar la barra de herramientas
+        val activity = requireActivity() as AppCompatActivity
+        activity.supportActionBar?.hide()
+
         settingAdapter()
         detailProduct()
         detailDescriptionProduct()
     }
     private fun settingAdapter() {
         assignedDetailProductsRecyclerView = view?.findViewById(R.id.rv_productImage)!!
-        adapterDetailProducts = AdapterDetailProducts { productsDetail ->
-            //detailProduct()
+        MLAdapterDetailProducts = MLAdapterDetailProducts { productsDetail ->
         }
         assignedDetailProductsRecyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        assignedDetailProductsRecyclerView.adapter = adapterDetailProducts
+        assignedDetailProductsRecyclerView.adapter = MLAdapterDetailProducts
     }
     private fun detailProduct() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val data = MLRemoteDataSource().detailProduct(productId)
+            val data = MLRemoteDataSourceML().detailProduct(productId)
             CoroutineScope(Dispatchers.Main).launch {
                 try {
 
@@ -67,15 +73,13 @@ class MLFragmentDetailProducts: MLFragmentBase() {
                         updateData(data.data)
                         tvNameProductDetail.text = data.data?.title
                     } else {
-//                        mListenerFragment?.showMessage(
-//                            getString(R.string.title_message_one), "no se pude acutalizar"
-//                        )
+                        openDialog(data.message.toString())
+
                     }
                 } catch (e: Exception) {
 
                 } finally {
 
-                    //  mListenerFragment?.dialogWait(false)
                 }
             }
         }
@@ -86,7 +90,7 @@ class MLFragmentDetailProducts: MLFragmentBase() {
     private fun detailDescriptionProduct() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val data = MLRemoteDataSource().detailDescriptionProduct(productId)
+            val data = MLRemoteDataSourceML().detailDescriptionProduct(productId)
             CoroutineScope(Dispatchers.Main).launch {
                 try {
 
@@ -97,38 +101,44 @@ class MLFragmentDetailProducts: MLFragmentBase() {
                     if (data.status == MLResource.Status.SUCCESS) {
                         tvDescriptProductDetail.text = data.data?.text
                     } else {
-//                        mListenerFragment?.showMessage(
-//                            getString(R.string.title_message_one), "no se pude acutalizar"
-//                        )
+                        openDialog(data.message.toString())
+
                     }
                 } catch (e: Exception) {
 
                 } finally {
 
-                    //  mListenerFragment?.dialogWait(false)
                 }
             }
         }
 
 
     }
+    fun openDialog(txt1:String){
+        val txt2 = getString(R.string.st_accept)
+        MLDialogFactory.createDesPrimaryButton(requireActivity(), txt1, txt2) {
+            Log.d(ContentValues.TAG, "listener: ")
+        }
+
+    }
 
     private fun updateData(response: ProductDetailsResponse?) {
 
         val result = response?.pictures
-        var listProducts = ArrayList<ProductsDetailModel>()
+        var listProducts = ArrayList<MLProductsDetailModel>()
         var ind = result?.size
         var cont = 0
         while(cont < ind!!){
             listProducts.add(
-                ProductsDetailModel(result?.get(cont)?.secureUrl)
+                MLProductsDetailModel(result?.get(cont)?.secureUrl)
 
             )
             cont++
         }
-        adapterDetailProducts.updateData(listProducts)
+        MLAdapterDetailProducts.updateData(listProducts)
 
 
     }
+
 
 }

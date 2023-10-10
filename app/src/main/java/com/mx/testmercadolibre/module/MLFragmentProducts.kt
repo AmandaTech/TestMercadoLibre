@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mx.testmercadolibre.R
 import com.mx.testmercadolibre.adapter.AdapterProducts
-import com.mx.testmercadolibre.adapter.ProductsModel
+import com.mx.testmercadolibre.adapter.MLProductsModel
 import com.mx.testmercadolibre.base.MLFragmentBase
 import com.mx.testmercadolibre.expose.MLNavigation
 import com.mx.testmercadolibre.data.api.ResProducts
 import com.mx.testmercadolibre.expose.MLNavigationExposeUtils
-import com.mx.testmercadolibre.remote.MLRemoteDataSource
+import com.mx.testmercadolibre.remote.MLRemoteDataSourceML
 import com.mx.testmercadolibre.utils.MLResource
 import com.mx.testmercadolibre.widget.MLDialogFactory
 import kotlinx.coroutines.CoroutineScope
@@ -69,7 +69,7 @@ class MLFragmentProducts: MLFragmentBase() {
     private fun searchLvl() {
         MLNavigationExposeUtils.openCustomDialog(requireActivity())
         CoroutineScope(Dispatchers.IO).launch {
-            val data = MLRemoteDataSource().searchItems(productSearch)
+            val data = MLRemoteDataSourceML().searchItems(productSearch)
             CoroutineScope(Dispatchers.Main).launch {
                 try {
                     MLNavigationExposeUtils.dismissCustomDialog()
@@ -107,12 +107,12 @@ class MLFragmentProducts: MLFragmentBase() {
     private fun updateData(response: MLResource<ResProducts>) {
 
         val result = response.data
-        var listProducts = ArrayList<ProductsModel>()
+        var listProducts = ArrayList<MLProductsModel>()
         var ind = result?.results?.size
         var cont = 0
         while(cont < ind!!){
             listProducts.add(
-                ProductsModel(
+                MLProductsModel(
                     result?.results?.get(cont)?.id,
                     result?.results?.get(cont)?.title,
                     result?.results?.get(cont)?.price,

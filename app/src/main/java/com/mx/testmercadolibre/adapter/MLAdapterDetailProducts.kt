@@ -3,9 +3,9 @@ package com.mx.testmercadolibre.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-class AdapterDetailProducts(var listener: ((item: ProductsDetailModel) -> Unit)?) : RecyclerView.Adapter<MLProductsDetailViewHolder>() {
+class MLAdapterDetailProducts(var listener: ((item: MLProductsDetailModel) -> Unit)?) : RecyclerView.Adapter<MLProductsDetailViewHolder>() {
 
-    private var items: List<ProductsDetailModel> = arrayListOf()
+    private var items: List<MLProductsDetailModel> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MLProductsDetailViewHolder {
         val view =
@@ -25,7 +25,7 @@ class AdapterDetailProducts(var listener: ((item: ProductsDetailModel) -> Unit)?
         }
     }
 
-    fun updateData(items: List<ProductsDetailModel>) {
+    fun updateData(items: List<MLProductsDetailModel>) {
         this.items = items
         notifyDataSetChanged()
     }

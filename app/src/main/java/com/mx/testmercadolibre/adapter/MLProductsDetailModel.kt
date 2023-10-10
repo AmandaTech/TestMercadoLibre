@@ -1,6 +1,6 @@
 package com.mx.testmercadolibre.adapter
 
-class ProductsDetailModel (
+class MLProductsDetailModel (
     val picture: String?
 
 )

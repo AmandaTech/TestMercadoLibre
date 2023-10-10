@@ -81,6 +81,7 @@ class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
 
 
 
+
     override fun changeFragmentFlow(step: Int,  productsId: String): Fragment {
         val chooser = MLNavigation.MLNavigationChoose.getByStepId(step)
         val fragment = MLNavigation.getFragmentByEnumChoose(chooser,productsId)
@@ -141,4 +142,8 @@ class MLMainActivity : MLBaseActivity(), MLFragmentInteractorBase {
     }
 
 
+
+
 }
+
+

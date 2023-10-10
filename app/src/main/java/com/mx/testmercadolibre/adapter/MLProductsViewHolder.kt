@@ -22,11 +22,11 @@ class MLProductsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 
 
-    private var mListener: ((item: ProductsModel) -> Unit)? = null
-    private lateinit var mCurrent: ProductsModel
+    private var mListener: ((item: MLProductsModel) -> Unit)? = null
+    private lateinit var mCurrent: MLProductsModel
 
 
-    fun bind(current: ProductsModel, listener: ((item: ProductsModel) -> Unit)?) {
+    fun bind(current: MLProductsModel, listener: ((item: MLProductsModel) -> Unit)?) {
         this.mCurrent = current
         this.mListener = listener
     }
